@@ -19,7 +19,7 @@ func configure(_ app: Application) throws {
     
     app.get("block", .parameter("id")) { req async in
         guard let idString = req.parameters.get("id") else {
-            return Response(status: .noContent, body: "may i see your id please")
+            return Response(status: .badRequest, body: "may i see your id please")
         }
         
         guard let blockID = Block.ID(parsing: idString) else {
@@ -27,13 +27,14 @@ func configure(_ app: Application) throws {
         }
         
         switch await blocks.fetchBlock(id: blockID) {
-        case .success(let block): return Response(body: Response.Body(data: block.content))
-        case .failure(let error):
-            switch error {
-            case .notFound: return Response(status: .notFound, body: "nope, haven't seen it")
-            case .invalidContent: return Response(status: .internalServerError, body: "idfk")
-            case .unable: return Response(status: .internalServerError, body: "something went wrong")
-            }
+        case .success(let block): 
+            return Response(status: .ok, body: Response.Body(data: block.content))
+        case .failure(.notFound): 
+            return Response(status: .notFound, body: "nope, haven't seen it")
+        case .failure(.invalidContent): 
+            return Response(status: .internalServerError, body: "idfk")
+        case .failure(.unable): 
+            return Response(status: .internalServerError, body: "something went wrong")
         }
     }
     
@@ -53,13 +54,14 @@ func configure(_ app: Application) throws {
                     return Response(status: .internalServerError, body: "idfk")
                 }
                 return Response(status: .ok, body: .init(data: data))
-            case .failure(let error):
-                switch error {
-                case .exists: return Response(status: .notFound, body: "we already have one, thanks")
-                case .unavailable: return Response(status: .badGateway, body: "not my fault")
-                case .notPermitted: return Response(status: .forbidden, body: "you shall not pass")
-                case .unable: return Response(status: .internalServerError, body: "idk didn't work")
-                }
+            case .failure(.exists):
+                return Response(status: .notFound, body: "we already have one, thanks")
+            case .failure(.unavailable):
+                return Response(status: .badGateway, body: "not my fault")
+            case .failure(.notPermitted):
+                return Response(status: .forbidden, body: "you shall not pass")
+            case .failure(.unable):
+                return Response(status: .internalServerError, body: "idk didn't work")
             }
         } catch {
             return Response(status: .internalServerError, body: "come on give me something")
@@ -73,10 +75,8 @@ func configure(_ app: Application) throws {
             guard let data = body.data(using: .utf8) else { return Response(status: .internalServerError, body: "i hate unicode") }
             
             return Response(status: .ok, body: Response.Body(data: data))
-        case .failure(let error):
-            switch error {
-            case .unable: return Response(status: .internalServerError, body: "something went wrong")
-            }
+        case .failure(.unable):
+            return Response(status: .internalServerError, body: "something went wrong")
         }
     }
     
