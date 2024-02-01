@@ -1,5 +1,6 @@
 # About zenea-swift-server
 This package contains a swift implementation of a HTTP server for the [Zenea Project](https://github.com/glasfisch3000/zenea) Data Layer. It is built on [Vapor](https://github.com/vapor/vapor) and [zenea-swift](https://github.com/glasfisch3000/zenea-swift).
+
 # How to Use
 If you haven't already, download the latest version of Swift, but at least version 5.9.2. On macOS, the recommended way to do this is by downloading the Xcode app. On Linux, you'll want to use [swiftly](https://github.com/swift-server/swiftly).
 
