@@ -7,22 +7,16 @@ let package = Package(
        .macOS(.v13)
     ],
     dependencies: [
-        // 💧 A server-side Swift web framework.
-        .package(url: "https://github.com/vapor/vapor.git", from: "4.89.0"),
+        .package(url: "https://github.com/vapor/vapor.git", from: "4.92.1"),
+        .package(url: "https://github.com/glasfisch3000/zenea-swift.git", from: "1.0.0-alpha3")
     ],
     targets: [
         .executableTarget(
             name: "App",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
+                .product(name: "zenea", package: "zenea-swift"),
             ]
-        ),
-        .testTarget(name: "AppTests", dependencies: [
-            .target(name: "App"),
-            .product(name: "XCTVapor", package: "vapor"),
-
-            // Workaround for https://github.com/apple/swift-package-manager/issues/6940
-            .product(name: "Vapor", package: "vapor"),
-        ])
+        )
     ]
 )
