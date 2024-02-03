@@ -2,8 +2,8 @@ import Vapor
 import zenea
 import zenea_fs
 
-func configure(_ app: Application) throws {
-    let blocks = BlockFS(NSString("~/.zenea").expandingTildeInPath as String)
+func configure(_ app: Application) async throws {
+    let blocks = await loadSources(client: app.http.client.shared)
     
     app.get { req async in
         return Response(status: .notFound, body: "Nothing to see here. Please go do something with your life.")
@@ -69,7 +69,7 @@ func configure(_ app: Application) throws {
     }
     
     app.get("blocks") { _ async in
-        switch await blocks.listBlocks() {
+        switch blocks.listBlocks() {
         case .success(let blocks):
             let body = blocks.map { $0.description }.joined(separator: ",")
             guard let data = body.data(using: .utf8) else { return Response(status: .internalServerError, body: "i hate unicode") }
