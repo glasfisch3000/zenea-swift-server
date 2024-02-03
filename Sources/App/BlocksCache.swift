@@ -1,16 +1,16 @@
 import Foundation
 import zenea
 
-class BlocksCache: ObservableObject, BlockStorage {
-    @Published var stores: [BlockStorage]
+class BlocksCache: BlockStorage {
+    var stores: [BlockStorage]
     
-    @Published private var list: Set<Block.ID> {
+    private var list: Set<Block.ID> {
         didSet {
             self.sortedList = list.map(\.id).sorted(using: KeyPathComparator(\.description))
         }
     }
-    @Published private var sortedList: [Block.ID] = []
-    @Published private var cache: [Block.ID: Block]
+    private var sortedList: [Block.ID] = []
+    private var cache: [Block.ID: Block]
     
     init(stores: [BlockStorage]) {
         self.stores = stores
