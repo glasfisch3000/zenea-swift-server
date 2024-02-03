@@ -4,12 +4,7 @@ import zenea
 class BlocksCache: BlockStorage {
     var stores: [BlockStorage]
     
-    private var list: Set<Block.ID> {
-        didSet {
-            self.sortedList = list.map(\.id).sorted(using: KeyPathComparator(\.description))
-        }
-    }
-    private var sortedList: [Block.ID] = []
+    private var list: Set<Block.ID>
     private var cache: [Block.ID: Block]
     
     init(stores: [BlockStorage]) {
@@ -20,10 +15,6 @@ class BlocksCache: BlockStorage {
     
     func listBlocks() -> Result<Set<Block.ID>, BlockListError> {
         return .success(self.list)
-    }
-    
-    func listBlocksSorted() -> [Block.ID] {
-        return self.sortedList
     }
     
     func updateList() async {
