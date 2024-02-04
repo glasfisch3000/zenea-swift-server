@@ -12,7 +12,7 @@ let package = Package(
     ],
     targets: [
         .executableTarget(
-            name: "App",
+            name: "zenea-swift-server",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "zenea", package: "zenea-swift"),
