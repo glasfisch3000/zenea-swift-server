@@ -194,8 +194,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/glasfisch3000/zenea-swift.git",
       "state" : {
-        "revision" : "205c961af67165b12dd4a2f06cef922c9a46fe92",
-        "version" : "1.0.0-alpha3"
+        "branch" : "main",
+        "revision" : "a9a613ad19e1c05eae3935617cae824e21908d74"
       }
     }
   ],

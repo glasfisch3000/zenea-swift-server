@@ -63,3 +63,9 @@ class BlocksCache: BlockStorage {
         return .success(block.id)
     }
 }
+
+extension BlocksCache: CustomStringConvertible {
+    var description: String {
+        "BlocksCache"
+    }
+}

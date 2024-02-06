@@ -34,8 +34,6 @@ func loadSources(client: HTTPClient) async -> BlocksCache {
     }
 }
 
-extension ZeneaHTTPClient.Scheme: Codable { }
-
 enum Source: Codable {
     case file(path: String)
     case http(scheme: ZeneaHTTPClient.Scheme, domain: String, port: Int)

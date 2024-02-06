@@ -8,7 +8,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/vapor/vapor.git", from: "4.92.1"),
-        .package(url: "https://github.com/glasfisch3000/zenea-swift.git", from: "1.0.0-alpha3")
+        .package(url: "https://github.com/glasfisch3000/zenea-swift.git", branch: "main")
     ],
     targets: [
         .executableTarget(
