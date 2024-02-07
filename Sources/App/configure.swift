@@ -4,6 +4,7 @@ import zenea_fs
 
 func configure(_ app: Application) async throws {
     let blocks = await loadSources(client: app.http.client.shared)
+    await blocks.updateList()
     
     app.get { req async in
         return Response(status: .notFound, body: "Nothing to see here. Please go do something with your life.")
