@@ -26,6 +26,10 @@ class BlocksCache: BlockStorage {
         }
     }
     
+    func checkBlock(id: Block.ID) async -> Result<Bool, BlockCheckError> {
+        return .success(self.cache[id] != nil)
+    }
+    
     func fetchBlock(id: Block.ID) async -> Result<Block, BlockFetchError> {
         if let block = self.cache[id] { return .success(block) }
         if stores.isEmpty { return .failure(.unable) }
