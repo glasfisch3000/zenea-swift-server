@@ -20,7 +20,7 @@ func loadSources(client: HTTPClient) async -> BlocksCache {
         let sources = try JSONDecoder().decode([Source].self, from: buffer)
         
         for source in sources {
-            switch source {
+            switch source.location {
             case .file(path: let path):
                 results.stores.append(BlockFS(path))
             case .http(scheme: let scheme, domain: let domain, port: let port):
@@ -34,7 +34,12 @@ func loadSources(client: HTTPClient) async -> BlocksCache {
     }
 }
 
-enum Source: Codable {
-    case file(path: String)
-    case http(scheme: ZeneaHTTPClient.Scheme, domain: String, port: Int)
+struct Source: Codable {
+    enum SourceLocation: Codable {
+        case file(path: String)
+        case http(scheme: ZeneaHTTPClient.Scheme, domain: String, port: Int)
+    }
+    
+    var name: String
+    var location: SourceLocation
 }
