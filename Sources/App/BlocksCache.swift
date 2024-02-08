@@ -20,14 +20,23 @@ class BlocksCache: BlockStorage {
     func updateList() async {
         for store in stores {
             switch await store.listBlocks() {
-            case .success(let blocks): DispatchQueue.main.sync { self.list.formUnion(blocks) }
+            case .success(let blocks): self.list.formUnion(blocks)
             case .failure(_): break
             }
         }
     }
     
     func checkBlock(id: Block.ID) async -> Result<Bool, BlockCheckError> {
-        return .success(self.cache[id] != nil)
+        if self.cache[id] != nil { return .success(true) }
+        
+        if self.list.contains(id) {
+            for store in self.stores {
+                guard let check = try? await store.checkBlock(id: id).get() else { continue }
+                if check { return .success(true) }
+            }
+        }
+        
+        return .success(false)
     }
     
     func fetchBlock(id: Block.ID) async -> Result<Block, BlockFetchError> {
@@ -39,8 +48,8 @@ class BlocksCache: BlockStorage {
             case .success(let block):
                 guard block.matchesID(id) else { return .failure(.invalidContent) }
                 
-                DispatchQueue.main.sync { let _ = self.list.insert(block.id) }
-                DispatchQueue.main.sync { self.cache[id] = block }
+                self.list.insert(block.id)
+                self.cache[id] = block
                 return .success(block)
             case .failure(_): break
             }
@@ -52,7 +61,8 @@ class BlocksCache: BlockStorage {
     func putBlock(content: Data) async -> Result<Block.ID, BlockPutError> {
         let block = Block(content: content)
         
-        if let cached = self.cache[block.id], cached.matchesID(block.id) { return .failure(.exists) }
+        guard let exists = try? await self.checkBlock(id: block.id).get() else { return .failure(.unable) }
+        guard !exists else { return .failure(.exists) }
         
         for store in stores {
             switch await store.putBlock(content: content) {
