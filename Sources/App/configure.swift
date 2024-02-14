@@ -15,10 +15,6 @@ func configure(_ app: Application) async throws {
     app.get(.catchall) { req async in
         return Response(status: .notFound, body: "Nothing to see here. Please go do something with your life.")
     }
-
-    app.get("hello") { req async in
-        "Hello, world!"
-    }
     
     app.get("blocks", use: system.getBlocks(_:))
     app.on(.HEAD, "blocks", .parameter("id"), use: system.headBlock(_:))
