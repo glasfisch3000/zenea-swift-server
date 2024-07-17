@@ -12,8 +12,8 @@ extension Server {
             }
             
             switch await self.cache.putBlock(content: data) {
-            case .success(let blockID):
-                guard let data = blockID.description.data(using: .utf8) else {
+            case .success(let block):
+                guard let data = block.id.description.data(using: .utf8) else {
                     return Response(status: .internalServerError, body: "idfk")
                 }
                 return Response(status: .ok, body: .init(data: data))
@@ -25,6 +25,8 @@ extension Server {
                 return Response(status: .forbidden, body: "you shall not pass")
             case .failure(.unable):
                 return Response(status: .internalServerError, body: "idk didn't work")
+            case .failure(.overflow):
+                return Response(status: .badRequest, body: "overflow")
             }
         } catch {
             return Response(status: .internalServerError, body: "come on give me something")
