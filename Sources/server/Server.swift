@@ -1,5 +1,6 @@
 import Vapor
 import Logging
+import Zenea
 import ZeneaCache
 import ZeneaFiles
 
@@ -13,8 +14,13 @@ final class Server: Sendable {
         defer { app.shutdown() }
         
         do {
+            app.logger.debug("initializing server")
             let server = Server(app: app)
+            
+            app.logger.debug("configuring server")
             try await server.configure()
+            
+            app.logger.debug("starting server")
             try await server.run()
         } catch {
             app.logger.report(error: error)
@@ -31,7 +37,12 @@ final class Server: Sendable {
     }
     
     func configure() async throws {
-        try await self.cache.updateList().get()
+        switch await self.cache.updateList() {
+        case .success: break
+        case .failure(.unable):
+            application.logger.error("unable to setup cache")
+            throw Block.ListError.unable
+        }
         
         application.get { req async in
             Response(status: .notFound, body: "Nothing to see here. Please go do something with your life.")
@@ -51,6 +62,8 @@ final class Server: Sendable {
     
     func run() async throws {
         try await application.startup()
+        
+        application.logger.info("server is running on port \(application.http.server.configuration.port)")
         try await application.running?.onStop.get()
     }
 }
