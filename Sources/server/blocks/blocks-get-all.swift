@@ -1,7 +1,7 @@
 import Vapor
 
-extension BlockSystem {
-    @Sendable func getBlocks(_ request: Request) async -> Response {
+extension Server {
+    @Sendable func getAllBlocks(_ request: Request) async -> Response {
         switch self.cache.listBlocks() {
         case .success(let blocks):
             let body = blocks.map { $0.description }.joined(separator: ",")

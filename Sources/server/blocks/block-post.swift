@@ -1,6 +1,6 @@
 import Vapor
 
-extension BlockSystem {
+extension Server {
     @Sendable func postBlock(_ request: Request) async -> Response {
         do {
             guard var contentBuffer = try await request.body.collect(max: 2<<16).get() else {

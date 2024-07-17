@@ -1,8 +1,7 @@
 import Vapor
+import Zenea
 
-import zenea
-
-extension BlockSystem {
+extension Server {
     @Sendable func getBlock(_ request: Request) async -> Response {
         guard let idString = request.parameters.get("id") else {
             return Response(status: .badRequest, body: "may i see your id please")

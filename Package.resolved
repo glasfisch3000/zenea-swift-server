@@ -77,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-crypto.git",
       "state" : {
-        "revision" : "cc76b894169a3c86b71bac10c78a4db6beb7a9ad",
-        "version" : "3.2.0"
+        "revision" : "46072478ca365fe48370993833cb22de9b41567f",
+        "version" : "3.5.2"
       }
     },
     {
@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-nio.git",
       "state" : {
-        "revision" : "635b2589494c97e48c62514bc8b37ced762e0a62",
-        "version" : "2.63.0"
+        "revision" : "fc79798d5a150d61361a27ce0c51169b889e23de",
+        "version" : "2.68.0"
       }
     },
     {
@@ -192,10 +192,28 @@
     {
       "identity" : "zenea-swift",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/glasfisch3000/zenea-swift.git",
+      "location" : "https://github.com/zenea-project/zenea-swift.git",
       "state" : {
-        "revision" : "11c5a09629a72d2fc70f642ef6d500aca696201d",
-        "version" : "1.0.0-alpha7"
+        "revision" : "c6fe00e8791ca9d2ff5005baa37ca3564aaeca39",
+        "version" : "3.1.0"
+      }
+    },
+    {
+      "identity" : "zenea-swift-files",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/zenea-project/zenea-swift-files.git",
+      "state" : {
+        "revision" : "2122d8a7dd5fc14537b298283dd3ead493c12be0",
+        "version" : "1.2.0"
+      }
+    },
+    {
+      "identity" : "zenea-swift-http",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/zenea-project/zenea-swift-http.git",
+      "state" : {
+        "revision" : "a290393a67dd1351188d3ae0941d11e782bad558",
+        "version" : "1.1.0"
       }
     }
   ],
