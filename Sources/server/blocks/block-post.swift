@@ -3,7 +3,7 @@ import Vapor
 extension Server {
     @Sendable func postBlock(_ request: Request) async -> Response {
         do {
-            guard var contentBuffer = try await request.body.collect(max: 2<<16).get() else {
+            guard var contentBuffer = try await request.body.collect(max: 1<<16).get() else {
                 return Response(status: .badRequest, body: "come on give me something")
             }
             
