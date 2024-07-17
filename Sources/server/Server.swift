@@ -55,7 +55,7 @@ final class Server: Sendable {
         application.get("blocks", use: self.getAllBlocks(_:))
         application.on(.HEAD, "block", .parameter("id"), use: self.headBlock(_:))
         application.get("block", .parameter("id"), use: self.getBlock(_:))
-        application.post("block", use: self.postBlock(_:))
+        application.on(.POST, "block", body: .stream, use: self.postBlock(_:))
         
         application.http.server.configuration.port = 4096
     }
